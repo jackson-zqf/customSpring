@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<beans>
+
+    <bean id="connectionUtils" class="com.zqf.utils.ConnectionUtils"></bean>
+    <!--    配置每一个对象, class:全限定名,通过这个全限定名来反射得到对象; id: 通过这个id值在内存中得到对象-->
+    <bean id="accountDao" class="com.zqf.dao.impl.JdbcAccountDaoImpl">
+        <property name="setConnectionUtils" ref="connectionUtils"></property>
+    </bean>
+    <bean id="transferService" class="com.zqf.service.impl.TransferServiceImpl">
+        <!--        需要依赖的对象-->
+        <property name="setAccountDao" ref="accountDao"></property>
+    </bean>
+
+    <bean id="transactionManager" class="com.zqf.factory.TransactionManager">
+        <property name="setConnectionUtils" ref="connectionUtils"></property>
+    </bean>
+
+    <bean id="proxyFactory" class="com.zqf.factory.ProxyFactory">
+        <property name="setTransactionManager" ref="transactionManager"></property>
+    </bean>
+
+</beans>
